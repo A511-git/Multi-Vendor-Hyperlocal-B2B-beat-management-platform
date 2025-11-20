@@ -1,9 +1,4 @@
 # Hyperlocal Platform — Data Model & Associations
-
-This document is a clear, machine- and human-friendly reference of your backend data model, formatted as Markdown so tools and AIs can easily parse it.
-
-> **Note:** paste your hosted schema diagram link below where indicated. If you want the repository to display your local SVG directly, replace the placeholder link with your `.svg` URL after you push to GitHub. An inline preview is included pointing to the local file path you provided.
-
 ---
 
 # 1. Overview
@@ -313,21 +308,7 @@ FieldManSaleOrder
 
 ---
 
-# 4. How to embed / attach your schema diagram
-
-- **If your diagram is hosted (GitHub, CDN):** paste the URL below and it will display inline.  
-  Example: `https://raw.githubusercontent.com/you/repo/main/diagram.svg`
-
-- **To use the local preview I have here (auto-converted by the environment):**
-
-![Schema Diagram](/mnt/data/7a5bd55b-a92b-4b1d-b8ff-f58ebba0d26e.png)
-
-> Replace the image path above with your GitHub raw `.svg` URL to show the SVG inline in Markdown viewers (GitHub will render it).
-
-
----
-
-# 5. Copy-ready Sequelize association snippet
+# 4. Copy-ready Sequelize association snippet
 
 ```js
 // place after all models are imported and initialized
@@ -374,7 +355,7 @@ ProofOfDelivery.belongsTo(DeliveryPerson, { foreignKey: 'deliveryPersonId' });
 
 ---
 
-# 6. Next steps / suggestions
+# 5. Next steps / suggestions
 
 - Add migrations to create binary UUID columns as `BINARY(16)` (or `VARBINARY(16)` depending on dialect).  
 - Centralize UUID conversion helpers (`toBinaryUUID` / `fromBinaryUUID`) and possibly a `BaseUUIDModel` so models stay DRY.  

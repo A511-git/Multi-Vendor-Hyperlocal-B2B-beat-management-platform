@@ -1,0 +1,52 @@
+import express, { json } from "express";
+import 'dotenv/config'
+import { loggerSetup } from "./middlewares/logger.js";
+
+export const app = express();
+
+//-------------------------------------------
+
+// Logger Setup
+loggerSetup(app)
+
+//-------------------------------------------
+
+// DataBase Setup
+import { connectDB } from "./config/sequalize/sequalize.js";
+connectDB()
+
+//-------------------------------------------
+
+// Redis Setup
+import {checkRedisConnection} from "./config/cache/redis.js";
+checkRedisConnection()
+
+//-------------------------------------------
+
+
+// Routes Setup
+app.get('/', (req, res) => res.send('Hello World!'));
+
+import {getProducts, getProduct} from "./product.js";
+
+app.get('/products', async (req, res) => {
+
+    let data = await redis.get('products');
+    if(data)
+        return res.json(JSON.parse(data));
+    
+    data = await getProducts();
+    redis.set('products', JSON.stringify(data))
+    res.json(data);
+})
+
+app.get('/product/:id', async (req, res) => {
+    const {id} = req.params;
+    let data = await redis.get(`product:${id}`);
+    if(data)
+        return res.json(JSON.parse(data));
+    
+    data = await getProduct(id);
+    redis.set(`product:${id}`, JSON.stringify(data))
+    res.json(data);
+})

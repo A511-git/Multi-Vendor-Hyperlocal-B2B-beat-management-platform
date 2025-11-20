@@ -1,6 +1,6 @@
 import express, { json } from "express";
 import 'dotenv/config'
-import { loggerSetup } from "./middlewares/logger.js";
+import { loggerSetup } from "./middlewares/logger.middleware.js";
 
 export const app = express();
 
@@ -12,13 +12,13 @@ loggerSetup(app)
 //-------------------------------------------
 
 // DataBase Setup
-import { connectDB } from "./config/sequalize/sequalize.js";
+import { connectDB } from "./db/sequalize/sequalize.js";
 connectDB()
 
 //-------------------------------------------
 
 // Redis Setup
-import {checkRedisConnection} from "./config/cache/redis.js";
+import {checkRedisConnection} from "./db/cache/redis.js";
 checkRedisConnection()
 
 //-------------------------------------------

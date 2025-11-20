@@ -1,5 +1,5 @@
 {
-  "name": "multi-vendor-hyperlocal-b2b-beat-management-platform",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
+    "start": "node index.js",
     "docker": "docker compose up -d"
   },
   "dependencies": {

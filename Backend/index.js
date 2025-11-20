@@ -1,4 +1,4 @@
-import {app} from "./src/app.js";
+import {app} from "../Backend/src/app.js";
 
 app.listen('3000', 
     ()=>(

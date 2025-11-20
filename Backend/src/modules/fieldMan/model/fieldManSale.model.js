@@ -3,8 +3,8 @@ import { DataTypes } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
 import { toBinaryUUID, fromBinaryUUID } from "../../../utils/uuId&BinaryConvertor.js";
 
-export const FieldManSales = sequelize.define(
-  "FieldManSales",
+export const FieldManSale = sequelize.define(
+  "FieldManSale",
   {
     fieldManSaleId: {
       type: DataTypes.BLOB("medium"),

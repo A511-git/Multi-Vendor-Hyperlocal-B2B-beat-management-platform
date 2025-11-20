@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import 'dotenv/config'
 import { loggerSetup } from "./middlewares/logger.middleware.js";
+import { retry } from "./utils/retry.js";
 
 export const app = express();
 
@@ -13,8 +14,7 @@ loggerSetup(app)
 
 // DataBase Setup
 import { connectDB } from "./db/sequalize/sequalize.js";
-connectDB()
-
+retry(connectDB, 10, 1000) 
 //-------------------------------------------
 
 // Redis Setup

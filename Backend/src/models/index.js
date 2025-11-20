@@ -14,7 +14,7 @@ import { Admin } from "../modules/admin/model/admin.model";
 import { FieldMan } from "../modules/fieldMan/model/fieldMan.model";
 import { FieldManAttendance } from "../modules/fieldManAttendance/model/fieldManAttendance.model";
 import { BeatAssignment } from "../modules/beatAssignment/model/beatAssignment.model";
-import { FieldManSales } from "../modules/fieldManSales/model/fieldManSales.model";
+import { FieldManSale } from "../modules/fieldManSale/model/fieldManSale.model";
 import { FieldManSaleOrder } from "../modules/fieldManSaleOrder/model/fieldManSaleOrder.model";
 import { Beat } from "../modules/beat/model/beat.model";
 import { Store } from "../modules/store/model/store.model";
@@ -111,7 +111,7 @@ ProofOfDelivery.belongsTo(Order, { foreignKey: "orderId" });
 FieldMan.belongsTo(User, { foreignKey: "userId" });
 FieldMan.hasMany(FieldManAttendance, { foreignKey: "fieldManId" });
 FieldMan.hasMany(BeatAssignment, { foreignKey: "fieldManId" });
-FieldMan.hasMany(FieldManSales, { foreignKey: "fieldManId" });
+FieldMan.hasMany(FieldManSale, { foreignKey: "fieldManId" });
 FieldMan.hasMany(Feedback, { foreignKey: "fieldManId" });
 FieldMan.hasMany(VisitLog, { foreignKey: "fieldManId" });
 
@@ -120,13 +120,13 @@ FieldManAttendance.belongsTo(FieldMan, { foreignKey: "fieldManId" });
 
 
 
-FieldManSales.belongsTo(FieldMan, { foreignKey: "fieldManId" });
-FieldManSales.belongsTo(Store, { foreignKey: "storeId" });
-FieldManSales.hasMany(FieldManSaleOrder, { foreignKey: "fieldManSaleId" });
+FieldManSale.belongsTo(FieldMan, { foreignKey: "fieldManId" });
+FieldManSale.belongsTo(Store, { foreignKey: "storeId" });
+FieldManSale.hasMany(FieldManSaleOrder, { foreignKey: "fieldManSaleId" });
 
 
 
-FieldManSaleOrder.belongsTo(FieldManSales, { foreignKey: "fieldManSaleId" });
+FieldManSaleOrder.belongsTo(FieldManSale, { foreignKey: "fieldManSaleId" });
 
 
 
@@ -140,7 +140,7 @@ BeatAssignment.belongsTo(FieldMan, { foreignKey: "fieldManId" });
 
 
 Store.belongsTo(Beat, { foreignKey: "beatId" });
-Store.hasMany(FieldManSales, { foreignKey: "storeId" });
+Store.hasMany(FieldManSale, { foreignKey: "storeId" });
 Store.hasMany(Feedback, { foreignKey: "storeId" });
 Store.hasMany(VisitLog, { foreignKey: "storeId" });
 

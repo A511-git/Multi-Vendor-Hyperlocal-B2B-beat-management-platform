@@ -43,10 +43,18 @@ export const FieldMan = sequelize.define(
     },
 
     phone: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(14),
+      allowNull: false,
+    },
+    pincode: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
 
+    city: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
     address: {
       type: DataTypes.STRING(200),
       allowNull: false,

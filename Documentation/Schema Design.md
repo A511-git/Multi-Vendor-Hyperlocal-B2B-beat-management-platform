@@ -17,6 +17,8 @@ User
 - userId (PK, binary UUID)
 - firstName
 - lastName
+- email
+- phone
 - password
 - role (Enum: customer, seller, deliveryMan, fieldMan, admin)
 - refreshToken
@@ -173,6 +175,8 @@ FieldMan
 - fieldManId (PK, binary UUID)
 - userId (FK -> User.userId)
 - phone
+- city
+- pincode
 - address
 ```
 

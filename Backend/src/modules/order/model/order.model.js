@@ -89,7 +89,7 @@ export const Order = sequelize.define(
     },
 
     phone: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(14),
       allowNull: false,
     },
   },

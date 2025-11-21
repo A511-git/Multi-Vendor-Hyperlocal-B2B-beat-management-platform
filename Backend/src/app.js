@@ -23,6 +23,12 @@ checkRedisConnection()
 
 //-------------------------------------------
 
+// Cookie Parser
+import cookieParser from "cookie-parser";
+app.use(cookieParser())
+
+//-------------------------------------------
+
 
 // Routes Setup
 app.get('/', (req, res) => res.send('Hello World!'));

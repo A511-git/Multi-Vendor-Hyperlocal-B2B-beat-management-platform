@@ -59,6 +59,7 @@ import {
 import {
     createUserSchema,
     updateUserSchema,
+    loginUserSchema,
 } from './user/schema/index.js'
 
 
@@ -116,4 +117,5 @@ export {
 
     createUserSchema,
     updateUserSchema,
+    loginUserSchema
 }

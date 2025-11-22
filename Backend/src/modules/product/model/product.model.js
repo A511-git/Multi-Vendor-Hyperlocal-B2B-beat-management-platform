@@ -1,6 +1,5 @@
 import { sequelize } from "../../../db/sequalize/sequalize.js";
 import { DataTypes } from "sequelize";
-import { toBinaryUUID, fromBinaryUUID } from "../../../utils/uuId&BinaryConvertor.js";
 import crypto from "crypto";
 
 
@@ -64,18 +63,8 @@ export const Product = sequelize.define(
     },
 
     sellerId: {
-      type: DataTypes.BLOB("medium"),
+      type: DataTypes.UUID,
       allowNull: false,
-
-      get() {
-        const b = this.getDataValue("sellerId");
-        return b ? fromBinaryUUID(b) : null;
-      },
-
-      set(val) {
-        if (!val) return;
-        this.setDataValue("sellerId", toBinaryUUID(val));
-      },
     },
   },
   {

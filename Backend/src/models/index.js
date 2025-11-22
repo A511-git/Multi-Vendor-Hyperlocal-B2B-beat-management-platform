@@ -1,31 +1,36 @@
-import { User } from "../modules/user/model/User.model";
-import { Seller } from "../modules/seller/model/seller.model";
-import { Product } from "../modules/product/model/product.model";
-import { ProductImage } from "../modules/product/model/productImage.model";
-import { ProductReview } from "../modules/product/model/productReview.model";
-import { Customer } from "../modules/customer/model/customer.model";
-import { Order } from "../modules/order/model/order.model";
-import { OrderProduct } from "../modules/order/model/orderProduct.model";
-import { DeliveryPerson } from "../modules/deliveryPerson/model/deliveryPerson.model";
-import { ProofOfDelivery } from "../modules/proofOfDelivery/model/proofOfDelivery.model";
-import { SellerOrder } from "../modules/sellerOrder/model/sellerOrder.model";
-import { CustomerComplaint } from "../modules/customerComplaint/model/customerComplaint.model";
-import { Admin } from "../modules/admin/model/admin.model";
-import { FieldMan } from "../modules/fieldMan/model/fieldMan.model";
-import { FieldManAttendance } from "../modules/fieldManAttendance/model/fieldManAttendance.model";
-import { BeatAssignment } from "../modules/beatAssignment/model/beatAssignment.model";
-import { FieldManSale } from "../modules/fieldManSale/model/fieldManSale.model";
-import { FieldManSaleOrder } from "../modules/fieldManSaleOrder/model/fieldManSaleOrder.model";
-import { Beat } from "../modules/beat/model/beat.model";
-import { Store } from "../modules/store/model/store.model";
-import { Feedback } from "../modules/feedback/model/feedback.model";
-import { VisitLog } from "../modules/visitLog/model/visitLog.model";
-import { CustomerComplaintImage } from "../modules/customerComplaintImage/model/customerComplaintImage.model";
+import { sequelize } from "../db/sequalize/sequalize.js";
+import {
+  Admin,
 
+  Customer,
+  CustomerComplaint,
+  CustomerComplaintImage,
 
+  DeliveryPerson,
+  ProofOfDelivery,
 
+  Beat,
+  BeatAssignment,
+  Feedback,
+  FieldManAttendance,
+  FieldMan,
+  FieldManSaleOrder,
+  FieldManSale,
+  Store,
+  VisitLog,
 
+  Order,
+  OrderProduct,
 
+  Product,
+  ProductImage,
+  ProductReview,
+
+  Seller,
+  SellerOrder,
+
+  User
+} from "../modules/index.model.js"
 
 
 
@@ -82,7 +87,7 @@ ProductImage.belongsTo(Product, { foreignKey: "sku" });
 
 
 ProductReview.belongsTo(Product, { foreignKey: "sku" });
-ProductReview.belongsTo(User, { foreignKey: "customerId" });
+ProductReview.belongsTo(Customer, { foreignKey: "customerId" });
 
 
 

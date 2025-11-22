@@ -1,5 +1,5 @@
-import {DeliveryPerson} from "./deliveryPerson.model"
-import {ProofOfDelivery} from "./proofOfDelivery.model"
+import {DeliveryPerson} from "./deliveryPerson.model.js"
+import {ProofOfDelivery} from "./proofOfDelivery.model.js"
 
 export {
     DeliveryPerson,

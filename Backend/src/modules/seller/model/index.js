@@ -1,5 +1,5 @@
-import {Seller} from "./seller.model"
-import {SellerOrder} from "./sellerOrder.model"
+import {Seller} from "./seller.model.js"
+import {SellerOrder} from "./sellerOrder.model.js"
 
 export {
     Seller,

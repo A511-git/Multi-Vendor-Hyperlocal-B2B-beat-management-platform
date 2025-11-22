@@ -1,27 +1,15 @@
 import { sequelize } from "../../../db/sequalize/sequalize.js";
 import { DataTypes } from "sequelize";
-import { toBinaryUUID, fromBinaryUUID } from "../../../utils/uuId&BinaryConvertor.js";
-import { v4 as uuidv4 } from "uuid";
 
 export const ProductReview = sequelize.define(
   "ProductReview",
   {
     productReviewId: {
-      type: DataTypes.BLOB("medium"),
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
       unique: true,
-      defaultValue() {
-        return toBinaryUUID(uuidv4());
-      },
-      get() {
-        const raw = this.getDataValue("productReviewId");
-        return raw ? fromBinaryUUID(raw) : null;
-      },
-      set(value) {
-        if (!value) return;
-        this.setDataValue("productReviewId", toBinaryUUID(value));
-      },
     },
     rating: {
       type: DataTypes.INTEGER,
@@ -37,18 +25,8 @@ export const ProductReview = sequelize.define(
       allowNull: false,
     },
     customerId: {
-      type: DataTypes.BLOB("medium"),
+      type: DataTypes.UUID,
       allowNull: false,
-
-      get() {
-        const raw = this.getDataValue("customerId");
-        return raw ? fromBinaryUUID(raw) : null;
-      },
-
-      set(value) {
-        if (!value) return;
-        this.setDataValue("customerId", toBinaryUUID(value));
-      },
     },
   },
   {

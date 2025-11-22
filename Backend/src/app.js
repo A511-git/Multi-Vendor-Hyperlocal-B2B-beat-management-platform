@@ -12,15 +12,22 @@ loggerSetup(app)
 
 //-------------------------------------------
 
+// Initialize Models and Associations
+import "../src/models/index.js";
+//-------------------------------------------
+
 // DataBase Setup
 import { connectDB } from "./db/sequalize/sequalize.js";
-retry(connectDB, 10, 1000) 
+retry(connectDB, 10, 1000)
 //-------------------------------------------
 
 // Redis Setup
-import {checkRedisConnection} from "./db/cache/redis.js";
-checkRedisConnection()
+import {connectRedis} from "./db/cache/redis.js";
+retry(connectRedis, 10, 1000)
+//-------------------------------------------
 
+// JSON Body Parser
+app.use(json());
 //-------------------------------------------
 
 // Cookie Parser
@@ -31,28 +38,8 @@ app.use(cookieParser())
 
 
 // Routes Setup
+import globalRouter from "./routes/index.js";
+
+app.use('/api/v1', globalRouter)
+
 app.get('/', (req, res) => res.send('Hello World!'));
-
-import {getProducts, getProduct} from "./product.js";
-
-app.get('/products', async (req, res) => {
-
-    let data = await redis.get('products');
-    if(data)
-        return res.json(JSON.parse(data));
-    
-    data = await getProducts();
-    redis.set('products', JSON.stringify(data))
-    res.json(data);
-})
-
-app.get('/product/:id', async (req, res) => {
-    const {id} = req.params;
-    let data = await redis.get(`product:${id}`);
-    if(data)
-        return res.json(JSON.parse(data));
-    
-    data = await getProduct(id);
-    redis.set(`product:${id}`, JSON.stringify(data))
-    res.json(data);
-})

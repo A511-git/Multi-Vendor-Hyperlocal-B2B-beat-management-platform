@@ -1,12 +1,12 @@
-import {Beat} from "./beat.model"
-import {BeatAssignment} from "./beatAssignment.model"
-import {Feedback} from "./feedback.model"
-import {FieldManAttendance} from "./feildManAttendance.model"
-import {FieldManSale} from "./fieldManSale.model"
-import {FieldManSaleOrder} from "./fieldManSaleOrder.model"
-import {FieldMan} from "./fieldman.model"
-import {Store} from "./store.model"
-import {VisitLog} from "./visitLog.model"
+import {Beat} from "./beat.model.js"
+import {BeatAssignment} from "./beatAssignment.model.js"
+import {Feedback} from "./feedback.model.js"
+import {FieldManAttendance} from "./feildManAttendance.model.js"
+import {FieldManSale} from "./fieldManSale.model.js"
+import {FieldManSaleOrder} from "./fieldManSaleOrder.model.js"
+import {FieldMan} from "./fieldman.model.js"
+import {Store} from "./store.model.js"
+import {VisitLog} from "./visitLog.model.js"
 
 
 export {

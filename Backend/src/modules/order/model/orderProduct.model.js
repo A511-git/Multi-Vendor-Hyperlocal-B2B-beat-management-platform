@@ -1,30 +1,15 @@
 import { sequelize } from "../../../db/sequalize/sequalize.js";
 import { DataTypes } from "sequelize";
-import { v4 as uuidv4 } from "uuid";
-import { toBinaryUUID, fromBinaryUUID } from "../../../utils/uuId&BinaryConvertor.js";
 
 export const OrderProduct = sequelize.define(
   "OrderProduct",
   {
     orderProductId: {
-      type: DataTypes.BLOB("medium"),
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       unique: true,
       allowNull: false,
-
-      defaultValue() {
-        return toBinaryUUID(uuidv4());
-      },
-
-      get() {
-        const raw = this.getDataValue("orderProductId");
-        return raw ? fromBinaryUUID(raw) : null;
-      },
-
-      set(value) {
-        if (!value) return;
-        this.setDataValue("orderProductId", toBinaryUUID(value));
-      },
     },
 
     sku: {
@@ -33,18 +18,8 @@ export const OrderProduct = sequelize.define(
     },
 
     sellerOrderId: {
-      type: DataTypes.BLOB("medium"),
+      type: DataTypes.UUID,
       allowNull: false,
-
-      get() {
-        const raw = this.getDataValue("sellerOrderId");
-        return raw ? fromBinaryUUID(raw) : null;
-      },
-
-      set(value) {
-        if (!value) return;
-        this.setDataValue("sellerOrderId", toBinaryUUID(value));
-      },
     },
 
     quantity: {

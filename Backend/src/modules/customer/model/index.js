@@ -1,6 +1,6 @@
-import {Customer} from "./customer.model"
-import {CustomerComplaint} from "./customerComplaint.model"
-import {CustomerComplaintImage} from "./customerComplaintImage.model"
+import {Customer} from "./customer.model.js"
+import {CustomerComplaint} from "./customerComplaint.model.js"
+import {CustomerComplaintImage} from "./customerComplaintImage.model.js"
 
 export {
     Customer,

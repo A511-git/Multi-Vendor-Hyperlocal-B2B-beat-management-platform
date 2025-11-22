@@ -1,5 +1,5 @@
-import {Order} from "./order.model"
-import {OrderProduct} from "./orderProduct.model"
+import {Order} from "./order.model.js"
+import {OrderProduct} from "./orderProduct.model.js"
 
 
 

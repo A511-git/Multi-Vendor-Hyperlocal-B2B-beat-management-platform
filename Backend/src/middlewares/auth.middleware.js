@@ -2,25 +2,28 @@ import jwt from "jsonwebtoken";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 import { redisFindKey } from "../utils/redisHelper.js";
-import { User } from './index.model.js'
+import { User } from '../modules/index.model.js'
 
 
 
-export const authenticate = asyncHandler(async (req, res, next) => {
+export const verifyJWT = asyncHandler(async (req, res, next) => {
     const encodedAccessToken =
-        req.cookies?.accessToken ||
-        req.header("Authorization")?.replace("Bearer ", "");
+        req.header("authorization")?.replace("Bearer ", "");
 
-    if (!encodedAccessToken) throw new ApiError(401, "Unauthorized access 1");
+    if (!encodedAccessToken) throw new ApiError(401, "Acess token missing or invalid");
 
 
-    let decodedAccessToken = jwt.verify(encodedAccessToken, process.env.JWT_SECRET);
+    let decodedAccessToken = jwt.verify(encodedAccessToken, process.env.ACCESS_TOKEN_SECRET);
     const userId = decodedAccessToken.userId
+
+    console.log("VERIFY MIDDLEWARE HIT");
+    console.log("AUTH HEADER RECEIVED:", req.headers.authorization);
 
     let data = await redisFindKey(`user:${userId}`);
     if (data) {
         req.user = JSON.parse(data);
-        next();    }
+        next();
+    }
     else {
         data = await User.findByPk(userId, { raw: true });
         if (!data) throw new ApiError(401, "Unauthorized access");

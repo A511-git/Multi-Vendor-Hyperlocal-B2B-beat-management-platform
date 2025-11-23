@@ -3,17 +3,24 @@ import { User } from "../../index.model.js";
 import { createUserSchema } from "../schema/index.js";
 import { redisSetKey } from "../../../utils/redisHelper.js";
 import { loginUserSchema } from "../schema/index.js";
+import { raw } from "express";
 
 
 export const generateAccessAndRefreshToken = async (user) => {
     if (!user)
         throw new ApiError(404, "User not found");
 
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
+    const fetchUser = await User.findOne({ where: { userId: user.userId } },{raw:true})
+    if (!fetchUser)
+        throw new ApiError(404, "User not found");
 
-    user.refreshToken = refreshToken;
-    await user.save();
+    const accessToken = fetchUser.generateAccessToken();
+    const refreshToken = fetchUser.generateRefreshToken();
+    if (!accessToken || !refreshToken)
+        throw new ApiError(401, "Token generation failed");
+
+    fetchUser.refreshToken = refreshToken;
+    await fetchUser.save();
 
     return {
         accessToken,
@@ -47,7 +54,7 @@ export const register = async (data) => {
     delete safeUser.password;
     delete safeUser.refreshToken;
 
-    return  safeUser
+    return safeUser
 }
 
 export const login = async (data) => {
@@ -75,11 +82,8 @@ export const login = async (data) => {
     await redisSetKey(`user:${safeUser.userId}`, JSON.stringify(safeUser), 60 * 15);
 
     return {
-        message: "Login successful",
-        data: {
-            user: safeUser,
-            accessToken
-        }
-
+        user: safeUser,
+        accessToken,
+        refreshToken
     }
 }

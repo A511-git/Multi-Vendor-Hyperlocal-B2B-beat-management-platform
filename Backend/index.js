@@ -1,7 +1,7 @@
 import {app} from "../Backend/src/app.js";
-
-app.listen('3000', 
+const PORT = process.env.BACKEND_PORT || 3000;
+app.listen(PORT, 
     ()=>(
-        console.log("App listening on port 3000")      
+        console.log(`App listening on port ${PORT}`)      
     )
 )

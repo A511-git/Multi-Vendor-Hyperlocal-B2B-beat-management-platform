@@ -4,11 +4,11 @@ import { updateUserSchema } from "../schema/index.js"
 
 
 
-export const updateUser = async (data, userId) => {
+export const serviceUpdateUser = async (data, userId) => {
     const parsed = updateUserSchema.safeParse(data);
-    if (!parsed.success) {
-        const message = parsed.error?.issues?.[0]?.message || "Invalid Data"
-        throw new ApiError(400, message)
+    if(!parsed.success){
+        const errors = parsed.error.issues.map(issue => issue.message)
+        throw new ApiError(400, "Invalid data", errors)
     }
     const { email, firstName, lastName, password } = parsed.data;
 
@@ -36,15 +36,4 @@ export const updateUser = async (data, userId) => {
     redisSetKey(`user:${safeUser.userId}`, JSON.stringify(safeUser), 60 * 15);
 
     return safeUser    
-}
-
-export const deleteUser = async (userId) => {
-    const user = await User.findOne({ where: { userId } })
-    if (!user)
-        throw new ApiError(404, "User not found");
-
-    await user.destroy();
-
-    return user;
-
 }

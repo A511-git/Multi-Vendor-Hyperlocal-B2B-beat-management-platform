@@ -17,7 +17,7 @@ export const OrderProduct = sequelize.define(
       allowNull: false,
     },
 
-    sellerOrderId: {
+    vendorOrderId: {
       type: DataTypes.UUID,
       allowNull: false,
     },

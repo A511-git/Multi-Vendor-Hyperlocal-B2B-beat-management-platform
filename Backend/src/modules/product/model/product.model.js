@@ -62,7 +62,7 @@ export const Product = sequelize.define(
       defaultValue: "active",
     },
 
-    sellerId: {
+    vendorId: {
       type: DataTypes.UUID,
       allowNull: false,
     },

@@ -1,9 +1,9 @@
 import { sequelize } from "../../../db/sequalize/sequalize.js";
 import { DataTypes } from "sequelize";
-export const SellerOrder = sequelize.define(
-  "SellerOrder",
+export const VendorOrder = sequelize.define(
+  "VendorOrder",
   {
-    sellerOrderId: {
+    vendorOrderId: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
@@ -21,7 +21,7 @@ export const SellerOrder = sequelize.define(
       allowNull: true,
     },
 
-    sellerId: {
+    vendorId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
@@ -53,7 +53,7 @@ export const SellerOrder = sequelize.define(
       defaultValue: "fully accepted",
     },
 
-    sellerStatus: {
+    vendorStatus: {
       type: DataTypes.ENUM(
         "pending",
         "accepted",
@@ -73,13 +73,13 @@ export const SellerOrder = sequelize.define(
         "out for delivery",
         "delivered",
         "failed delivery",
-        "returned to seller"
+        "returned to vendor"
       ),
       defaultValue: "pending",
     },
   },
   {
-    tableName: "seller_orders",
+    tableName: "vendor_orders",
     timestamps: true,
     paranoid: true,
   }

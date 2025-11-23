@@ -45,7 +45,7 @@ export const User = sequelize.define("User", {
     },
 
     role: {
-        type: DataTypes.ENUM("customer", "seller", "deliveryMan", "fieldMan", "admin"),
+        type: DataTypes.ENUM("customer", "vendor", "deliveryMan", "fieldMan", "admin"),
         defaultValue: "customer",
     },
     refreshToken: {

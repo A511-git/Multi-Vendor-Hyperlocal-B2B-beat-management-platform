@@ -3,10 +3,9 @@ import { User } from "../../index.model.js";
 import { createUserSchema } from "../schema/index.js";
 import { redisSetKey } from "../../../utils/redisHelper.js";
 import { loginUserSchema } from "../schema/index.js";
-import { raw } from "express";
 
 
-export const generateAccessAndRefreshToken = async (user) => {
+export const serviceGenerateAccessAndRefreshTokenUser = async (user) => {
     if (!user)
         throw new ApiError(404, "User not found");
 
@@ -28,11 +27,11 @@ export const generateAccessAndRefreshToken = async (user) => {
     }
 }
 
-export const register = async (data) => {
+export const serviceRegisterUser = async (data) => {
     const parsed = createUserSchema.safeParse(data);
-    if (!parsed.success) {
-        const message = parsed.error?.issues?.[0]?.message || "Invalid Data"
-        throw new ApiError(400, message)
+    if(!parsed.success){
+        const errors = parsed.error.issues.map(issue => issue.message)
+        throw new ApiError(400, "Invalid data", errors)
     }
     const { email, firstName, lastName, password } = parsed.data;
 
@@ -57,11 +56,11 @@ export const register = async (data) => {
     return safeUser
 }
 
-export const login = async (data) => {
+export const serviceLoginUser = async (data) => {
     const parsed = loginUserSchema.safeParse(data);
-    if (!parsed.success) {
-        const message = parsed.error?.issues?.[0]?.message || "Invalid Data";
-        throw new ApiError(400, message)
+  if(!parsed.success){
+        const errors = parsed.error.issues.map(issue => issue.message)
+        throw new ApiError(400, "Invalid data", errors)
     }
     const { email, password } = parsed.data;
 

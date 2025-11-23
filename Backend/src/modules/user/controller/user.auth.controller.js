@@ -1,16 +1,15 @@
-import * as authService from "../service/auth.service.js"
+import {serviceRegisterUser, serviceLoginUser, serviceGenerateAccessAndRefreshTokenUser}  from "../service/index.js"
 import { asyncHandler } from "../../../utils/asyncHandler.js"
-import { ApiError } from "../../../utils/apiError.js"
 import { ApiResponse } from "../../../utils/apiResponse.js"
 
 
-const register = asyncHandler(async (req, res) => {
-    const response = await authService.register(req.body)
+export const register = asyncHandler(async (req, res) => {
+    const response = await serviceRegisterUser(req.body)
     res.status(201).json(new ApiResponse(201, {response}, "User created successfully"))
 })
 
-const login = asyncHandler(async (req, res) => {
-    const { user, accessToken, refreshToken } = await authService.login(req.body)
+export const login = asyncHandler(async (req, res) => {
+    const { user, accessToken, refreshToken } = await serviceLoginUser(req.body)
 
     const response = {
         user,
@@ -33,8 +32,8 @@ const login = asyncHandler(async (req, res) => {
 })
 
 
-const refreshToken = asyncHandler(async (req, res) => {
-    const {accessToken, refreshToken} = await authService.generateAccessAndRefreshToken(req.user);
+export const refreshToken = asyncHandler(async (req, res) => {
+    const {accessToken, refreshToken} = await serviceGenerateAccessAndRefreshTokenUser(req.user);
 
     res.set("Authorization", `Bearer ${accessToken}`);
     res.set("Access-Control-Expose-Headers", "Authorization");
@@ -50,7 +49,7 @@ const refreshToken = asyncHandler(async (req, res) => {
 
 })
 
-const logout = asyncHandler(async (req, res) => {
+export const logout = asyncHandler(async (req, res) => {
 
     res.set("Authorization", "");
     res.set("Access-Control-Expose-Headers", "Authorization");
@@ -66,4 +65,3 @@ const logout = asyncHandler(async (req, res) => {
 
 })
 
-export { register, login, refreshToken, logout }    

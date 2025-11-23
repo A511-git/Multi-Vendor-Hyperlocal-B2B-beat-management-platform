@@ -31,9 +31,9 @@ import {
     ProductReview
 } from './product/model/index.js'
 import {
-    Seller,
-    SellerOrder
-} from './seller/model/index.js'
+    Vendor,
+    VendorOrder
+} from './vendor/model/index.js'
 import {
     User
 } from './user/model/index.js'
@@ -42,7 +42,7 @@ import {
 
 export {
     Admin,
-    
+
     Customer,
     CustomerComplaint,
     CustomerComplaintImage,
@@ -67,8 +67,8 @@ export {
     ProductImage,
     ProductReview,
 
-    Seller,
-    SellerOrder,
+    Vendor,
+    VendorOrder,
 
     User
 

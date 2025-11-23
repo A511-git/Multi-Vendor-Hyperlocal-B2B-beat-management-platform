@@ -26,15 +26,15 @@ import {
   ProductImage,
   ProductReview,
 
-  Seller,
-  SellerOrder,
+  Vendor,
+  VendorOrder,
 
   User
 } from "../modules/index.model.js"
 
 
 
-User.hasOne(Seller, { foreignKey: "userId" });
+User.hasOne(Vendor, { foreignKey: "userId" });
 User.hasMany(ProductReview, { foreignKey: "customerId" });
 User.hasOne(Customer, { foreignKey: "userId" });
 User.hasOne(DeliveryPerson, { foreignKey: "userId" });
@@ -62,21 +62,21 @@ CustomerComplaintImage.belongsTo(CustomerComplaint, {
 });
 
 
-Seller.belongsTo(User, { foreignKey: "userId" });
-Seller.hasMany(Product, { foreignKey: "sellerId" });
-Seller.hasMany(SellerOrder, { foreignKey: "sellerId" });
+Vendor.belongsTo(User, { foreignKey: "userId" });
+Vendor.hasMany(Product, { foreignKey: "vendorId" });
+Vendor.hasMany(VendorOrder, { foreignKey: "vendorId" });
 
 
-SellerOrder.belongsTo(Order, { foreignKey: "orderId" });
-SellerOrder.belongsTo(Seller, { foreignKey: "sellerId" });
-SellerOrder.belongsTo(DeliveryPerson, { foreignKey: "deliveryPersonId" });
-SellerOrder.hasMany(OrderProduct, { foreignKey: "sellerOrderId" });
+VendorOrder.belongsTo(Order, { foreignKey: "orderId" });
+VendorOrder.belongsTo(Vendor, { foreignKey: "vendorId" });
+VendorOrder.belongsTo(DeliveryPerson, { foreignKey: "deliveryPersonId" });
+VendorOrder.hasMany(OrderProduct, { foreignKey: "vendorOrderId" });
 
 
 
 
 
-Product.belongsTo(Seller, { foreignKey: "sellerId" });
+Product.belongsTo(Vendor, { foreignKey: "vendorId" });
 Product.hasMany(ProductImage, { foreignKey: "sku" });
 Product.hasMany(ProductReview, { foreignKey: "sku" });
 Product.hasMany(OrderProduct, { foreignKey: "sku" });
@@ -93,18 +93,18 @@ ProductReview.belongsTo(Customer, { foreignKey: "customerId" });
 
 Order.belongsTo(Customer, { foreignKey: "customerId" });
 Order.hasOne(ProofOfDelivery, { foreignKey: "orderId" });
-Order.hasMany(SellerOrder, { foreignKey: "orderId" });
+Order.hasMany(VendorOrder, { foreignKey: "orderId" });
 Order.hasMany(CustomerComplaint, { foreignKey: "orderId" });
 
 
-OrderProduct.belongsTo(SellerOrder, { foreignKey: "sellerOrderId" });
+OrderProduct.belongsTo(VendorOrder, { foreignKey: "vendorOrderId" });
 OrderProduct.belongsTo(Product, { foreignKey: "sku" });
 
 
 
 DeliveryPerson.belongsTo(User, { foreignKey: "userId" });
 DeliveryPerson.hasMany(ProofOfDelivery, { foreignKey: "deliveryPersonId" });
-DeliveryPerson.hasMany(SellerOrder, { foreignKey: "deliveryPersonId" });
+DeliveryPerson.hasMany(VendorOrder, { foreignKey: "deliveryPersonId" });
 
 
 

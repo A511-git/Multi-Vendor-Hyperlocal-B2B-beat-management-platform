@@ -51,11 +51,11 @@ import {
     updateProductReviewSchema,
 } from './product/schema/index.js'
 import {
-    createSellerSchema,
-    updateSellerSchema,
-    createSellerOrderSchema,
-    updateSellerOrderSchema,
-} from './seller/schema/index.js'
+    createVendorSchema,
+    updateVendorSchema,
+    createVendorOrderSchema,
+    updateVendorOrderSchema,
+} from './vendor/schema/index.js'
 import {
     createUserSchema,
     updateUserSchema,
@@ -110,10 +110,10 @@ export {
     createProductReviewSchema,
     updateProductReviewSchema,
 
-    createSellerSchema,
-    updateSellerSchema,
-    createSellerOrderSchema,
-    updateSellerOrderSchema,
+    createVendorSchema,
+    updateVendorSchema,
+    createVendorOrderSchema,
+    updateVendorOrderSchema,
 
     createUserSchema,
     updateUserSchema,

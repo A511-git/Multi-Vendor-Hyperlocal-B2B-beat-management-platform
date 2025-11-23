@@ -1,8 +1,8 @@
 import { sequelize } from "../../../db/sequalize/sequalize.js";
 import { DataTypes } from "sequelize";
 
-export const Seller = sequelize.define("Seller", {
-    sellerId: {
+export const Vendor = sequelize.define("Vendor", {
+    vendorId: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
@@ -41,7 +41,7 @@ export const Seller = sequelize.define("Seller", {
     }
 },
     {
-        tableName: "sellers",
+        tableName: "vendors",
         timestamps: true,
         paranoid: true,
     }

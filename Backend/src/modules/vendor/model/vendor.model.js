@@ -35,6 +35,10 @@ export const Vendor = sequelize.define("Vendor", {
             max: 5,
         },
     },
+    status: {
+        type: DataTypes.ENUM("active", "inactive", "blocked"),
+        defaultValue: "active",
+    },
     userId: {
         type: DataTypes.UUID,
         allowNull: false,

@@ -35,6 +35,10 @@ export const FieldMan = sequelize.define(
       type: DataTypes.STRING(200),
       allowNull: false,
     },
+    status: {
+        type: DataTypes.ENUM("active", "inactive", "blocked"),
+        defaultValue: "active",
+    },
   },
   {
     tableName: "field_men",

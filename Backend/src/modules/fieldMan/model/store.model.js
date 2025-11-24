@@ -26,6 +26,10 @@ export const Store = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    status: {
+        type: DataTypes.ENUM("active", "inactive", "blocked"),
+        defaultValue: "active",
+    },
 
     city: {
       type: DataTypes.STRING(50),

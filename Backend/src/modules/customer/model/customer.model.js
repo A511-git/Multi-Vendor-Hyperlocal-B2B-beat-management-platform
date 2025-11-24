@@ -26,6 +26,10 @@ export const Customer = sequelize.define(
       type: DataTypes.STRING(200),
       allowNull: false,
     },
+    status: {
+        type: DataTypes.ENUM("active", "inactive", "blocked"),
+        defaultValue: "active",
+    },
 
     userId: {
       type: DataTypes.UUID,

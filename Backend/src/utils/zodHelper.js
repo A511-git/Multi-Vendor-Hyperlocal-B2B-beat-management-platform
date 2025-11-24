@@ -48,4 +48,13 @@ const ADDRESS = () =>
       "Address may contain only letters, numbers, spaces, commas, hyphens, and line breaks."
     )
 
-export { UUID, SKU, PHONE, PERCENT, EMAIL, PINCODE, CITY, ADDRESS };
+const BASEACTIVESTATUS = () =>
+  z
+    .enum(["active", "inactive"], "Invalid status. Must be either 'active' or 'inactive'.")
+
+const ADMINACTIVESTATUS = () =>
+  z
+    .enum(["active", "inactive", "blocked"], "Invalid status. Must be either 'active', 'inactive', or 'blocked'.")
+
+
+export { UUID, SKU, PHONE, PERCENT, EMAIL, PINCODE, CITY, ADDRESS, BASEACTIVESTATUS, ADMINACTIVESTATUS};

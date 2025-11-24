@@ -9,8 +9,12 @@ export const serviceDeleteUser = async (userId) => {
         throw new ApiError(404, "User not found");
 
     await user.destroy();
+    const safeUser = user.get({ plain: true });
+    delete safeUser.password;
+    delete safeUser.refreshToken;
+
     await redisDeleteKey(`user:${userId}`);
 
-    return user;
+    return safeUser;
 
 }

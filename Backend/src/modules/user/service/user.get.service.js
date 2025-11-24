@@ -6,9 +6,6 @@ import { getUsersQuerySchema } from "../schema/index.js"
 import { Op } from "sequelize"
 
 export const serviceGetUser = async (user) => {
-    if (!user instanceof User)
-        throw new ApiError("Invalid user object")
-
     return user
 }
 
@@ -28,41 +25,18 @@ export const serviceGetUserById = async (userId) => {
     if (!dbUser)
         throw new ApiError("User not found")
 
+    await redisSetKey(`user:${userId}`, JSON.stringify(dbUser), 60 * 15)
+
     return dbUser
 }
 
-export const serviceGetUsers = async ({
-    role,
-    status,
-    search,
-    offset = 0,
-    limit = 20,
-    sortBy = "createdAt",
-    order = "DESC"
-}) => {
-    const data = {
-        role,
-        status,
-        search,
-        offset,
-        limit,
-        sortBy,
-        order
-    }
+export const serviceGetUsers = async (data) => {
     const parsed = getUsersQuerySchema.safeParse(data);
     if (!parsed.success) {
         const errors = parsed.error.issues.map(issue => issue.message)
         throw new ApiError(400, "Invalid data", errors)
     }
-
-    role= parsed.data.role;
-    status= parsed.data.status;
-    search= parsed.data.search;
-    offset= parsed.data.offset;
-    limit= parsed.data.limit;
-    sortBy= parsed.data.sortBy;
-    order= parsed.data.order;
-
+    const { role, status, search, offset, limit, sortBy, order } = parsed.data;
 
     let filters = {};
     if (role)
@@ -91,7 +65,9 @@ export const serviceGetUsers = async ({
             total: result.count,
             offset,
             limit,
-            pages: Math.ceil(result.count / limit)
+            totalPages: Math.ceil(count / limit),
+            currentPage: Math.ceil(offset / limit) + 1
+
         }
     }
 }

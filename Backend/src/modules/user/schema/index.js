@@ -6,6 +6,8 @@ export const createUserSchema = z.object({
     firstName: z.string().min(1,"First name is required"),
     lastName: z.string().min(1,"Last name is required"),
     password: z.string().min(8,"Password must be of 8 characters"),
+    role: z.enum(["customer", "vendor", "delivery", "admin"]).default("customer"),
+    status: z.enum(["active", "inactive", "blocked"]).default("active"),
 });
 
 export const updateUserSchema = createUserSchema.partial();

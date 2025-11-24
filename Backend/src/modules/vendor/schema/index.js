@@ -26,3 +26,33 @@ export const createVendorOrderSchema = z.object({
 });
 
 export const updateVendorOrderSchema = createVendorOrderSchema.partial();
+
+export const getVendorsQuerySchema = z.object({
+  pincode: z.string().regex(/^\d{6}$/, "Invalid pincode").optional(),
+  city: z.string().min(1).max(100).optional(),
+  rating: z.number().min(0).max(5).optional(),
+  status: z.enum(["active", "inactive", "blocked"]).optional(),
+  search: z.string().min(1).max(100).optional(),
+  offset: z
+    .string()
+    .regex(/^\d+$/, "startIndex must be a positive integer")
+    .transform(Number)
+    .default("0")
+    .optional(),
+  limit: z
+    .string()
+    .regex(/^\d+$/, "limit must be a positive integer")
+    .transform(Number)
+    .default("20")
+    .optional(),
+  sortBy: z
+    .string()
+    .refine(
+      (val) =>
+        ["createdAt", "updatedAt", "pincode", "city", "rating"].includes(val),
+      "Invalid sortBy field"
+    )
+    .default("createdAt")
+    .optional(),
+  order: z.enum(["ASC", "DESC"]).default("DESC").optional()
+});

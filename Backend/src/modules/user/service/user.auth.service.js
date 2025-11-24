@@ -33,7 +33,7 @@ export const serviceRegisterUser = async (data) => {
         const errors = parsed.error.issues.map(issue => issue.message)
         throw new ApiError(400, "Invalid data", errors)
     }
-    const { email, firstName, lastName, password } = parsed.data;
+    const { email, firstName, lastName, password, role, status} = parsed.data;
 
     const existingUser = await User.findOne({ where: { email } })
     if (existingUser)
@@ -44,6 +44,8 @@ export const serviceRegisterUser = async (data) => {
         firstName,
         lastName,
         password,
+        role,
+        status
     })
 
     if (!user)

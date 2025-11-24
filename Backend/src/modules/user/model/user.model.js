@@ -43,6 +43,10 @@ export const User = sequelize.define("User", {
             len: [8, 200],
         },
     },
+    status: {
+        type: DataTypes.ENUM("active", "inactive", "blocked"),
+        defaultValue: "active",
+    },
 
     role: {
         type: DataTypes.ENUM("customer", "vendor", "deliveryMan", "fieldMan", "admin"),

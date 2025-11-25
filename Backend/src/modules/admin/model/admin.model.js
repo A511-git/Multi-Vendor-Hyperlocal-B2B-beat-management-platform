@@ -16,6 +16,10 @@ export const Admin = sequelize.define(
       type: DataTypes.UUID,
       allowNull: false,
     },
+    status: {
+      type: DataTypes.ENUM("active", "inactive", "blocked"),
+      defaultValue: "active",
+    },
   },
   {
     tableName: "admins",

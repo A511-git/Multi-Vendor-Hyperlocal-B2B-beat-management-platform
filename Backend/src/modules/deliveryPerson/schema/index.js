@@ -11,10 +11,6 @@ export const createDeliveryPersonSchema = z.object({
 })
 
 export const getDeliveryPersonQuerySchema = z.object({
-  pincode: z.string().regex(/^\d{6}$/, "Invalid pincode").optional(),
-  city: z.string().min(1).max(100).optional(),
-  status: z.enum(["active", "inactive", "blocked"]).optional(),
-  phone: PHONE().optional(),
   offset: z
     .string()
     .regex(/^\d+$/, "startIndex must be a positive integer")
@@ -31,7 +27,7 @@ export const getDeliveryPersonQuerySchema = z.object({
     .string()
     .refine(
       (val) =>
-        ["createdAt", "updatedAt", "pincode", "city"].includes(val),
+        ["createdAt", "updatedAt"].includes(val),
       "Invalid sortBy field"
     )
     .default("createdAt")

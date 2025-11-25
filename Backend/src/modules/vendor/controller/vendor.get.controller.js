@@ -15,6 +15,6 @@ export const getVendorById = asyncHandler(async (req, res, next) => {
 })
 
 export const getVendorByQuery = asyncHandler(async (req, res, next) => {
-    const response = await serviceGetVendors(req.query);
+    const response = await serviceGetVendors(req.query, res.user);
     res.status(200).json(new ApiResponse(200, { response} , "Vendors fetched successfully"))
 })

@@ -1,7 +1,6 @@
 import { ApiError } from "../../../utils/apiError"
 import { redisGetKey, redisSetKey } from "../../../utils/redisHelper"
 import {UUID} from "../../../utils/zodHelper.js"
-import { getCustomersQuerySchema } from "../schema/index.js"
 import {Customer} from "../../index.model.js"
 
 export const serviceGetCustomer = async (user) => {    
@@ -29,31 +28,4 @@ export const serviceGetCustomerById = async (subjectId) => {
         throw new ApiError(400, "Customer not found")
     await redisSetKey(`customer:user:${subject.userId}`, JSON.stringify(subject), 60 * 15)
     return subject
-}
-
-export const serviceGetCustomers = async (data) => {
-    const parsed = getCustomersQuerySchema.safeParse(data)
-    if(!parsed.success)
-        throw new ApiError(400, "Invalid query")
-    const { pincode, city, status, offset, limit, sortBy, order } = parsed.data
-
-    const filters = {}
-    if(pincode)
-        filters.pincode = pincode
-    if(city)
-        filters.city = city
-    if(status)
-        filters.status = status
-    
-    const {rows, count} = await Customer.findAndCountAll({ where: {...filters}, offset, limit, order: [[sortBy, order]], raw: true})
-    return {
-        rows,
-        pagination: {
-            offset,
-            limit,
-            count,
-            totalPages: Math.ceil(count / limit),
-            currentPage: Math.ceil(offset / limit) + 1
-        }
-    }  
 }

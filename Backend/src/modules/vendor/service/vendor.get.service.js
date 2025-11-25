@@ -3,7 +3,7 @@ import { redisGetKey, redisSetKey } from "../../../utils/redisHelper"
 import {UUID} from "../../../utils/zodHelper.js"
 import { getVendorsQuerySchema } from "../schema/index.js"
 import { Op } from "sequelize"
-import {Vendor} from "../../index.model.js"
+import {Customer, Vendor} from "../../index.model.js"
 
 
 export const serviceGetVendor = async (data) => {    
@@ -32,24 +32,32 @@ export const serviceGetVendorById = async (vendorId) => {
     return vendor
 }
 
-export const serviceGetVendors = async (data) => {
+export const serviceGetVendors = async (data,user) => {
     const parsed = getVendorsQuerySchema.safeParse(data)
-    if(!parsed.success)
-        throw new ApiError(400, "Invalid query")
-    const { pincode, city, rating,status, search, offset, limit, sortBy, order } = parsed.data
 
-    const filters = {}
-    if(pincode)
-        filters.pincode = pincode
-    if(city)
-        filters.city = city
-    if(rating)
-        filters.rating = rating
-    if(status)
-        filters.status = status
+    if(!parsed.success){
+        const errors = parsed.error.issues.map(issue => issue.message)
+        throw new ApiError(400, "Invalid data", errors)
+    }
+    const { rating, search, offset, limit, sortBy, order } = parsed.data
+
+    let subject = await redisGetKey(`${user.role}:user:${user.userId}`)
+    if(!subject)
+        if(user.role === "customer")
+            subject = await Customer.findOne({ where: { userId: user.userId }, raw: true})
+        else
+            throw new ApiError(400, "Unauthorized")
+
+    const filters = {
+        city: subject.city,
+        pincode: subject.pincode,
+        status: "active",
+        rating,
+    }
+
     if(search)
         filters[Op.or] = [
-            { shopName: { [Op.like]: `%${search}%` } }
+            { shopName: { [Op.like]: `%${search}%` } },
         ]
     
     const {rows, count} = await Vendor.findAndCountAll({ where: {...filters}, offset, limit, order: [[sortBy, order]], raw: true})
@@ -59,11 +67,6 @@ export const serviceGetVendors = async (data) => {
             offset,
             limit,
             count,
-            totalPages: Math.ceil(count / limit),
-            currentPage: Math.ceil(offset / limit) + 1
         }
-    }
-
-
-  
+    }  
 }

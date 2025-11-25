@@ -1,38 +1,38 @@
 import { ApiError } from "../../../utils/apiError"
 import { redisGetKey, redisSetKey } from "../../../utils/redisHelper"
 import {UUID} from "../../../utils/zodHelper.js"
-import { getCustomersQuerySchema } from "../schema/index.js"
-import {Customer} from "../../index.model.js"
+import { getFieldMenQuerySchema } from "../schema/index.js"
+import {FieldMan} from "../../index.model.js"
 
-export const serviceGetCustomer = async (user) => {    
+export const serviceGetFieldMan = async (user) => {    
     if(!user)
         throw new ApiError(400, "User not found")
     const userId = user.userId
-    const chachedSubject = await redisGetKey(`customer:user:${userId}`)
+    const chachedSubject = await redisGetKey(`fieldMan:user:${userId}`)
     if(chachedSubject)
         return JSON.parse(chachedSubject)
 
-    const subject = await Customer.findOne({ where: { userId }, raw: true})
+    const subject = await FieldMan.findOne({ where: { userId }, raw: true})
     if(!subject)
-        throw new ApiError(400, "Customer not found")
-    await redisSetKey(`customer:user:${userId}`, JSON.stringify(subject), 60 * 15)
+        throw new ApiError(400, "FieldMan not found")
+    await redisSetKey(`fieldMan:user:${userId}`, JSON.stringify(subject), 60 * 15)
     return subject
 }
 
-export const serviceGetCustomerById = async (subjectId) => {
+export const serviceGetFieldManById = async (subjectId) => {
     if(!UUID.safeParse(subjectId).success)
         throw new ApiError(400, "Invalid customer id")
     
 
-    const subject = await Customer.findOne({ where: { customerId: subjectId }, raw: true})
+    const subject = await FieldMan.findOne({ where: { fieldManId: subjectId }, raw: true})
     if(!subject)
-        throw new ApiError(400, "Customer not found")
-    await redisSetKey(`customer:user:${subject.userId}`, JSON.stringify(subject), 60 * 15)
+        throw new ApiError(400, "FieldMan not found")
+    await redisSetKey(`fieldMan:user:${subject.userId}`, JSON.stringify(subject), 60 * 15)
     return subject
 }
 
-export const serviceGetCustomers = async (data) => {
-    const parsed = getCustomersQuerySchema.safeParse(data)
+export const serviceGetFieldMen = async (data) => {
+    const parsed = getFieldMenQuerySchema.safeParse(data)
     if(!parsed.success)
         throw new ApiError(400, "Invalid query")
     const { pincode, city, status, offset, limit, sortBy, order } = parsed.data
@@ -45,7 +45,7 @@ export const serviceGetCustomers = async (data) => {
     if(status)
         filters.status = status
     
-    const {rows, count} = await Customer.findAndCountAll({ where: {...filters}, offset, limit, order: [[sortBy, order]], raw: true})
+    const {rows, count} = await FieldMan.findAndCountAll({ where: {...filters}, offset, limit, order: [[sortBy, order]], raw: true})
     return {
         rows,
         pagination: {

@@ -1,5 +1,5 @@
 import { createVendorSchema } from "../schema/index.js"
-import { serviceRegisterUser, generateAccessAndRefreshToken } from "../../user/service/user.auth.service.js"
+import { serviceRegisterUser, serviceGenerateAccessAndRefreshTokenUser } from "../../user/service/user.auth.service.js"
 import { ApiError } from "../../../utils/apiError.js"
 import { redisSetKey } from "../../../utils/redisHelper.js"
 import {Vendor, User} from "../../index.model.js"
@@ -43,7 +43,7 @@ export const serviceRegisterVendor = async (data) => {
     const user = await serviceRegisterUser({ ...data, role: "vendor" })
     if (!user)
         throw new ApiError(500, "User registration failed")
-    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user)
+    const { accessToken, refreshToken } = await serviceGenerateAccessAndRefreshTokenUser(user)
     if (!accessToken || !refreshToken)
         throw new ApiError(500, "Token generation failed")
 

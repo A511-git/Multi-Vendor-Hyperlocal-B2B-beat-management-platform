@@ -14,7 +14,7 @@ export const serviceGetVendor = async (data) => {
     if(chachedVendor)
         return JSON.parse(chachedVendor)
 
-    const vendor = await Vendor.findOne({ where: { userId } },{raw: true})
+    const vendor = await Vendor.findOne({ where: { userId }, raw: true})
     if(!vendor)
         throw new ApiError(400, "Vendor not found")
     await redisSetKey(`vendor:user:${userId}`, JSON.stringify(vendor), 60 * 15)
@@ -52,7 +52,7 @@ export const serviceGetVendors = async (data) => {
             { shopName: { [Op.like]: `%${search}%` } }
         ]
     
-    const {rows, count} = await Vendor.findAndCountAll({ where: {...filters}, offset, limit, order: [[sortBy, order]] },{raw: true})
+    const {rows, count} = await Vendor.findAndCountAll({ where: {...filters}, offset, limit, order: [[sortBy, order]], raw: true})
     return {
         rows,
         pagination: {

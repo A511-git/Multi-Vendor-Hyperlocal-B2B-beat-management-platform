@@ -65,7 +65,7 @@ export const serviceGetUsers = async (data) => {
             total: result.count,
             offset,
             limit,
-            totalPages: Math.ceil(count / limit),
+            totalPages: Math.ceil(result.count / limit),
             currentPage: Math.ceil(offset / limit) + 1
 
         }

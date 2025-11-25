@@ -9,7 +9,7 @@ export const serviceGenerateAccessAndRefreshTokenUser = async (user) => {
     if (!user)
         throw new ApiError(404, "User not found");
 
-    const fetchUser = await User.findOne({ where: { userId: user.userId } },{raw:true})
+    const fetchUser = await User.findOne({ where: { userId: user.userId } })
     if (!fetchUser)
         throw new ApiError(404, "User not found");
 
@@ -74,7 +74,7 @@ export const serviceLoginUser = async (data) => {
     if (!isPasswordCorrect)
         throw new ApiError(400, "Invalid credentials");
 
-    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user);
+    const { accessToken, refreshToken } = await serviceGenerateAccessAndRefreshTokenUser(user);
 
     let safeUser = user.get({ plain: true });
     delete safeUser.password;

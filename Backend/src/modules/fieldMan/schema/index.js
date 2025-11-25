@@ -42,6 +42,35 @@ export const createFieldManSchema = z.object({
 
 export const updateFieldManSchema = createFieldManSchema.partial();
 
+export const getFieldMenQuerySchema = z.object({
+  pincode: z.string().regex(/^\d{6}$/, "Invalid pincode").optional(),
+  city: z.string().min(1).max(100).optional(),
+  status: z.enum(["active", "inactive", "blocked"]).optional(),
+  phone: PHONE().optional(),
+  offset: z
+    .string()
+    .regex(/^\d+$/, "startIndex must be a positive integer")
+    .transform(Number)
+    .default("0")
+    .optional(),
+  limit: z
+    .string()
+    .regex(/^\d+$/, "limit must be a positive integer")
+    .transform(Number)
+    .default("20")
+    .optional(),
+  sortBy: z
+    .string()
+    .refine(
+      (val) =>
+        ["createdAt", "updatedAt", "pincode", "city"].includes(val),
+      "Invalid sortBy field"
+    )
+    .default("createdAt")
+    .optional(),
+  order: z.enum(["ASC", "DESC"]).default("DESC").optional()
+});
+
 export const createFieldManSaleOrderSchema = z.object({
     fieldManSaleId: UUID(),
     productName: z.string().min(1, "Product name cannot be empty.").max(100, "Product name cannot exceed 100 characters."),

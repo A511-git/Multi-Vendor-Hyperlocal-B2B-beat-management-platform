@@ -3,7 +3,7 @@ import {ApiError} from "../../../utils/apiError.js"
 import {updateCustomerSchema} from "../schema/index.js"
 import {Customer} from "../../index.model.js"
 
-export const serviceUpdateVendor = async (data, user) => {
+export const serviceUpdateCustomer = async (data, user) => {
 
     const parsed = updateCustomerSchema.safeParse(data)
     if(!parsed.success){
@@ -22,8 +22,8 @@ export const serviceUpdateVendor = async (data, user) => {
         data.pincode = pincode
 
 
-    const subject = await Customer.update({ ...data }, { where: { userId: userId.userId }, raw: true})
+    const subject = await Customer.update({ ...data }, { where: { userId: user.userId }, raw: true})
     
-    redisSetKey(`customer:user:${subject.customerId}`, JSON.stringify(subject), 60 * 15)
+    redisSetKey(`customer:user:${user.userId}`, JSON.stringify(subject), 60 * 15)
     return subject
 }

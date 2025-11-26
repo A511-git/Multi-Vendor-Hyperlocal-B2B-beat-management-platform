@@ -19,7 +19,7 @@ export const serviceGetAdmin = async (user) => {
     return subject
 }
 
-export const serviceGeAdminrById = async (subjectId) => {
+export const serviceGeAdminById = async (subjectId) => {
     if(!UUID.safeParse(subjectId).success)
         throw new ApiError(400, "Invalid Admin id")
     
@@ -29,27 +29,4 @@ export const serviceGeAdminrById = async (subjectId) => {
         throw new ApiError(400, "Admin not found")
     await redisSetKey(`admin:user:${subject.userId}`, JSON.stringify(subject), 60 * 15)
     return subject
-}
-
-export const serviceGetAdmins = async (data) => {
-    const parsed = getAdminsQuerySchema.safeParse(data)
-    if(!parsed.success)
-        throw new ApiError(400, "Invalid query")
-    const { status, offset, limit, sortBy, order } = parsed.data
-
-    const filters = {}
-    if(status)
-        filters.status = status
-    
-    const {rows, count} = await Admin.findAndCountAll({ where: {...filters}, offset, limit, order: [[sortBy, order]], raw: true})
-    return {
-        rows,
-        pagination: {
-            offset,
-            limit,
-            count,
-            totalPages: Math.ceil(count / limit),
-            currentPage: Math.ceil(offset / limit) + 1
-        }
-    }  
 }

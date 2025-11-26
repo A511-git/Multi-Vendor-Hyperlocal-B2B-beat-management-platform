@@ -1,20 +1,15 @@
-import {serviceGetCustomer, serviceGetCustomerById, serviceGetCustomers} from "../service/index.js"
+import {serviceGetAdmin, serviceGetAdmin, serviceGetAdmin} from "../service/index.js"
 import { asyncHandler } from "../../../utils/asyncHandler.js"
 import { ApiResponse } from "../../../utils/apiResponse.js"
 
 
-export const getCustomer = asyncHandler(async (req, res, next) => {
-    const vendors = await serviceGetCustomer(res.user)
-    res.status(200).json(new ApiResponse(200, { vendors} , "Customer fetched successfully"))
+export const getAdmin = asyncHandler(async (req, res, next) => {
+    const admin = await serviceGetAdmin(res.user)
+    res.status(200).json(new ApiResponse(200, { admin} , "Admin fetched successfully"))
 })
 
-export const getCustomerById = asyncHandler(async (req, res, next) => {
+export const getAdminById = asyncHandler(async (req, res, next) => {
     const id = req.params.id || req.body.customerId 
-    const vendor = await serviceGetCustomerById(id)
-    res.status(200).json(new ApiResponse(200, { vendor} , "Customer fetched successfully"))
-})
-
-export const getCustomerByQuery = asyncHandler(async (req, res, next) => {
-    const response = await serviceGetCustomers(req.query);
-    res.status(200).json(new ApiResponse(200, { response} , "Customers fetched successfully"))
+    const admin = await serviceGetAdmin(id)
+    res.status(200).json(new ApiResponse(200, { admin} , "Admin fetched successfully"))
 })

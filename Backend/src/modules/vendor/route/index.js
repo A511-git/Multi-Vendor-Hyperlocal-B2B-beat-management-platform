@@ -10,11 +10,11 @@ router.post("/create",verifyJWT, controller.createVendor);
 router.post("/register", controller.registerVendor);
 
 router.route("/me")
-.get(verifyJWT,verifyJWT, controller.getVendor)
-.put(verifyJWT,verifyJWT, controller.updateVendor)
-.delete(verifyJWT,verifyJWT, controller.deleteVendor)
+.get(verifyJWT, controller.getVendor)
+.put(verifyJWT, controller.updateVendor)
+.delete(verifyJWT, controller.deleteVendor)
 
-router.get("/:id", controller.getVendorById);
+router.get("/:id",verifyJWT,checkRole(["admin"]), controller.getVendorById);
 
 
 export default router;

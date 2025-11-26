@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyJWT } from "../../../middlewares/index.js";
+import { checkRole, verifyJWT } from "../../../middlewares/index.js";
 
 import * as controller from "../controller/index.js"
 
@@ -18,7 +18,7 @@ router.route("/me")
 .put(verifyJWT, controller.updateUser)
 .delete(verifyJWT, controller.deleteUser)
 
-router.get("/:id", controller.getUserById);
+router.get("/:id",verifyJWT, checkRole(["admin"]), controller.getUserById);
 
 
 export default router;

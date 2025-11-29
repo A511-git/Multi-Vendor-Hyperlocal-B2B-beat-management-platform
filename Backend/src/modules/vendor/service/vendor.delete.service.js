@@ -9,6 +9,6 @@ export const serviceDeleteVendor = async (user) => {
         throw new ApiError(400, "Vendor not found")
     const safeVendor = vendor.get({ plain: true })
     await vendor.destroy()
-    redisDeleteKey(`vendor:user:${user.userId}`)
+    await redisDeleteKey(`vendor:user:${user.userId}`)
     return safeVendor
 }

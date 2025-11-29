@@ -1,11 +1,5 @@
-import {verifyJWT} from "./auth.middleware.js"
-import {loggerSetup} from "./logger.middleware.js"
-import {upload} from "./multer.middleware.js"
-import {checkRole} from "./checkRole.middleware.js"
-
-export {
-    verifyJWT,
-    loggerSetup,
-    upload,
-    checkRole,
-}
+export * from "./auth.middleware.js"
+export * from "./checkRole.middleware.js"
+export * from "./fetchSubject.middleware.js"
+export * from "./logger.middleware.js"
+export * from "./multer.middleware.js"

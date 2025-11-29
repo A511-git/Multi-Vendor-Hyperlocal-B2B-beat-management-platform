@@ -2,7 +2,6 @@ import { ApiError } from "../../../utils/apiError.js"
 import { User } from "../../index.model.js"
 import { UUID } from "../../../utils/zodHelper.js"
 import { redisFindKey, redisSetKey } from "../../../utils/redisHelper.js"
-import { Op } from "sequelize"
 
 export const serviceGetUser = async (user) => {
     return user

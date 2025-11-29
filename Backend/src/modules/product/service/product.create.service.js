@@ -17,7 +17,7 @@ export const serviceCreateProduct = async (data, vendor) => {
     const product = await Product.create({ vendorId: vendor.userId, name, description, price, discount, stock, rating, status }, { raw: true })
     if (!product)
         throw new ApiError(500, "Product creation failed")
-    redisSetKey(`product:${vendor.pincode}:${product.name}`, JSON.stringify(product), 60 * 60 * 2)
+    await redisSetKey(`product:${vendor.pincode}:${product.name}`, JSON.stringify(product), 60 * 60 * 2)
     return product
 }
 
@@ -42,7 +42,7 @@ export const serviceBulkCreateProducts = async (data, vendor) => {
 
 
     for (const product of createdProducts) {
-        redisSetKey(
+        await redisSetKey(
             `product:${vendor.pincode}:${product.name}`,
             JSON.stringify(product),
             60 * 60 * 2

@@ -22,12 +22,9 @@ export const serviceUpdateFieldMan = async (data, user) => {
         data.pincode = pincode
     if(phone)
         data.phone = phone
-
-
-
-
+    
     const subject = await FieldMan.update({ ...data }, { where: { userId: user.userId }, raw: true})
     
-    redisSetKey(`fieldMan:user:${user.userId}`, JSON.stringify(subject), 60 * 15)
+    await redisSetKey(`fieldMan:user:${user.userId}`, JSON.stringify(subject), 60 * 15)
     return subject
 }

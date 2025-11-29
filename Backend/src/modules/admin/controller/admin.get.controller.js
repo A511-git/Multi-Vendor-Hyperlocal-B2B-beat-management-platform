@@ -4,7 +4,7 @@ import { ApiResponse } from "../../../utils/apiResponse.js"
 
 
 export const getAdmin = asyncHandler(async (req, res, next) => {
-    const admin = await serviceGetAdmin(res.user)
+    const admin = await serviceGetAdmin(res.subject)
     res.status(200).json(new ApiResponse(200, { admin} , "Admin fetched successfully"))
 })
 

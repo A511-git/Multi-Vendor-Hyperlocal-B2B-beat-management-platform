@@ -13,6 +13,6 @@ export const serviceDeleteDeliveryPerson = async (user) => {
 
     const safeSubject = subject.get({ plain: true })
     await subject.destroy()
-    redisDeleteKey(`deliveryPerson:user:${user.userId}`)
+    await redisDeleteKey(`deliveryPerson:user:${user.userId}`)
     return safeSubject
 }

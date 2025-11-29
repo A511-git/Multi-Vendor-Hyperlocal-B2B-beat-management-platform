@@ -33,7 +33,7 @@ export const serviceUpdateUser = async (data, userId) => {
     delete safeUser.password;
     delete safeUser.refreshToken;
 
-    redisSetKey(`user:${safeUser.userId}`, JSON.stringify(safeUser), 60 * 15);
+    await redisSetKey(`user:${safeUser.userId}`, JSON.stringify(safeUser), 60 * 15);
 
     return safeUser    
 }

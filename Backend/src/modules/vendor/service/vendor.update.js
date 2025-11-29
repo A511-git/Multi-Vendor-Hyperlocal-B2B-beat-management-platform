@@ -17,6 +17,6 @@ export const serviceUpdateVendor = async (data, user) => {
     await vendor.save()
     const safeVendor = vendor.get({ plain: true })
     
-    redisSetKey(`vendor:user:${user.userId}`, JSON.stringify(safeVendor), 60 * 15)
+    await redisSetKey(`vendor:user:${user.userId}`, JSON.stringify(safeVendor), 60 * 15)
     return safeVendor
 }

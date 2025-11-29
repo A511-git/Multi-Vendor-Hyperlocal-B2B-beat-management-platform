@@ -13,6 +13,6 @@ export const serviceDeleteFieldMan = async (user) => {
 
     const safeSubject = subject.get({ plain: true })
     await subject.destroy()
-    redisDeleteKey(`fieldMan:user:${user.userId}`)
+    await redisDeleteKey(`fieldMan:user:${user.userId}`)
     return safeSubject
 }

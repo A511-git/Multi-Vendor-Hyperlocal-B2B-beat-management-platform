@@ -25,6 +25,6 @@ export const serviceUpdateDeliveryPerson = async (data, user) => {
 
     const subject = await DeliveryPerson.update({ ...data }, { where: { userId: user.userId }, raw: true})
     
-    redisSetKey(`deliveryPerson:user:${user.userId}`, JSON.stringify(subject), 60 * 15)
+    await redisSetKey(`deliveryPerson:user:${user.userId}`, JSON.stringify(subject), 60 * 15)
     return subject
 }

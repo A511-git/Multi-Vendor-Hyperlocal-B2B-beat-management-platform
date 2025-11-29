@@ -16,8 +16,6 @@ export const fetchSubject = async (req, res, next) => {
         subject = await DiliveryPerson.findOne({ where: { userId: req.user.userId }})
     else
         throw new ApiError(400, "Invalid role")
-
-    const safeSubject = subject.get({ plain: true })
-    req.subject = safeSubject
+    req.subject = subject
     next()    
 }
